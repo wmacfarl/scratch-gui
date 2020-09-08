@@ -4,497 +4,136 @@ const categorySeparator = '<sep gap="36"/>';
 
 const blockSeparator = '<sep gap="36"/>'; // At default scale, about 28px
 
-const getBlockXML = function (opcode, targetId, costumeName, backdropName, soundName){
-    const hello = ScratchBlocks.ScratchMsgs.translate('LOOKS_HELLO', 'Hello!');
-    const hmm = ScratchBlocks.ScratchMsgs.translate('LOOKS_HMM', 'Hmm...');
-
-    switch (opcode){
-    case 'motion_movesteps': return `        
-        <block type="motion_movesteps">
-            <value name="STEPS">
-                <shadow type="math_number">
-                    <field name="NUM">10</field>
-                </shadow>
-            </value>
-        </block>`;
-
-    case 'motion_turnright' : return `
-        <block type="motion_turnright">
-        <value name="DEGREES">
-            <shadow type="math_number">
-                <field name="NUM">15</field>
-            </shadow>
-        </value>
-        </block>`;
-
-    case 'motion_turnleft': return `
-        <block type="motion_turnleft">
-            <value name="DEGREES">
-                <shadow type="math_number">
-                    <field name="NUM">15</field>
-             </shadow>
-            </value>
-        </block>`;
-
-    case 'motion_goto': return `
-        <block type="motion_goto">
-            <value name="TO">
-                <shadow type="motion_goto_menu">
-                </shadow>
-            </value>
-            </block>`;
-
-    case 'motion_gotoxy':return `
-        <block type="motion_gotoxy">
-        <value name="X">
-            <shadow id="movex" type="math_number">
-                <field name="NUM">0</field>
-        </shadow>
-    </value>
-    <value name="Y">
-        <shadow id="movey" type="math_number">
-            <field name="NUM">0</field>
-        </shadow>
-    </value>
-    </block>`;
-
-    case 'motion_glideto': return `
-    <block type="motion_glideto" id="motion_glideto">
-    <value name="SECS">
-        <shadow type="math_number">
-            <field name="NUM">1</field>
-        </shadow>
-    </value>
-    <value name="TO">
-        <shadow type="motion_glideto_menu">
-        </shadow>
-    </value>
-    </block>`;
-
-    case 'motion_glidesectoxy': return `
-    <block type="motion_glidesecstoxy">
-    <value name="SECS">
-        <shadow type="math_number">
-            <field name="NUM">1</field>
-        </shadow>
-    </value>
-    <value name="X">
-        <shadow id="glidex" type="math_number">
-            <field name="NUM">0</field>
-        </shadow>
-    </value>
-    <value name="Y">
-        <shadow id="glidey" type="math_number">
-            <field name="NUM">0</field>
-        </shadow>
-    </value>
-    </block>`;
-
-    case 'motion_pointindirection': return `
-    <block type="motion_pointindirection">
-    <value name="DIRECTION">
-        <shadow type="math_angle">
-            <field name="NUM">90</field>
-        </shadow>
-    </value>
-    </block>`;
-
-    case 'motion_pointtowards': return `
-    <block type="motion_pointtowards">
-    <value name="TOWARDS">
-        <shadow type="motion_pointtowards_menu">
-        </shadow>
-    </value>
-    </block>`;
-
-    case 'motion_changexby': return `
-    <block type="motion_changexby">
-    <value name="DX">
-        <shadow type="math_number">
-            <field name="NUM">10</field>
-        </shadow>
-    </value>
-    </block>`;
-    
-    case 'motion_setx': return `
-    <block type="motion_setx">
-    <value name="X">
-        <shadow id="setx" type="math_number">
-            <field name="NUM">0</field>
-        </shadow>
-    </value>
-    </block>`;
-
-    case 'motion_changeyby': return `
-    <block type="motion_changeyby">
-    <value name="DY">
-        <shadow type="math_number">
-            <field name="NUM">10</field>
-        </shadow>
-    </value>
-    </block>`;
-
-    case ' motion_sety': return `
-    <block type="motion_sety">
-    <value name="Y">
-        <shadow id="sety" type="math_number">
-            <field name="NUM">0</field>
-        </shadow>
-    </value>
-    </block>`;
-
-    case 'motion_ifonedgebounce': return `
-    <block type="motion_ifonedgebounce"/>`;
-    
-    case 'motion_setrotationstyle': return `
-    <block type="motion_setrotationstyle"/>`;
-
-    case 'motion_xposition': return `<block id="${targetId}_xposition" type="motion_xposition"/>`;
-    case 'motion_yposition': return `<block id="${targetId}_yposition" type="motion_yposition"/>`;
-    case 'motion_direction': return `<block id="${targetId}_direction" type="motion_direction"/>`;
-
-    case 'looks_sayforsecs': return `<block type="looks_sayforsecs">
-        <value name="MESSAGE">
-            <shadow type="text">
-                <field name="TEXT">${hello}</field>
-            </shadow>
-        </value>
-        <value name="SECS">
-            <shadow type="math_number">
-                <field name="NUM">2</field>
-            </shadow>
-        </value>
-    </block>`;
-
-    case 'looks_say' : return `
-    <block type="looks_say">
-        <value name="MESSAGE">
-            <shadow type="text">
-                <field name="TEXT">${hello}</field>
-            </shadow>
-        </value>
-    </block>`;
-
-    case 'looks_thinkforsecs' : return `
-    <block type="looks_thinkforsecs">
-        <value name="MESSAGE">
-            <shadow type="text">
-                <field name="TEXT">${hmm}</field>
-            </shadow>
-        </value>
-        <value name="SECS">
-            <shadow type="math_number">
-                <field name="NUM">2</field>
-            </shadow>
-        </value>
-    </block>`;
-
-    case 'looks_think' : return `
-    <block type="looks_think">
-        <value name="MESSAGE">
-            <shadow type="text">
-                <field name="TEXT">${hmm}</field>
-            </shadow>
-        </value>
-    </block>`;
-
-    case 'looks_switchbackdropto' : return `
-        <block type="looks_switchbackdropto">
-            <value name="BACKDROP">
-                <shadow type="looks_backdrops">
-                    <field name="BACKDROP">${backdropName}</field>
-                </shadow>
-            </value>
-        </block>
-        `;
-    case 'looks_switchbackdroptoandwait' : return `
-        <block type="looks_switchbackdroptoandwait">
-            <value name="BACKDROP">
-                <shadow type="looks_backdrops">
-                    <field name="BACKDROP">${backdropName}</field>
-                </shadow>
-            </value>
-        </block>`;
-
-    case 'looks_nextbackdrop' : return `<block type="looks_nextbackdrop"/>`;
-    
-    case 'looks_switchcostumeto' : return `
-        <block id="${targetId}_switchcostumeto" type="looks_switchcostumeto">
-            <value name="COSTUME">
-                <shadow type="looks_costume">
-                    <field name="COSTUME">${costumeName}</field>
-                </shadow>
-            </value>
-        </block>`;
-    
-    case 'looks_nextcostume' : return `<block type="looks_nextcostume"/>`;
-
-    case 'looks_changesizeby' : return `<block type="looks_changesizeby">
-            <value name="CHANGE">
-                <shadow type="math_number">
-                    <field name="NUM">10</field>
-                </shadow>
-            </value>
-        </block>`;
-
-    case 'looks_setsizeto' : return `
-        <block type="looks_setsizeto">
-            <value name="SIZE">
-                <shadow type="math_number">
-                    <field name="NUM">100</field>
-                </shadow>
-            </value>
-        </block>`;
-
-    case 'looks_changeeffectby' : return `
-        <block type="looks_changeeffectby">
-        <value name="CHANGE">
-            <shadow type="math_number">
-                <field name="NUM">25</field>
-            </shadow>
-        </value>
-    </block>`;
-    
-    case 'looks_seteffectto' : return `
-    <block type="looks_seteffectto">
-        <value name="VALUE">
-            <shadow type="math_number">
-                <field name="NUM">0</field>
-            </shadow>
-        </value>
-    </block>`;
-
-    case 'looks_cleargraphiceffects' : return `<block type="looks_cleargraphiceffects"/>`;
-    case 'looks_show' : return `<block type="looks_show"/>`;
-    case 'looks_hide' : return `<block type="looks_hide"/>`;
-    case 'looks_gotofrontback' : return `<block type="looks_gotofrontback"/>`;
-    case 'looks_goforwardbackwardlayers' : return `
-        <block type="looks_goforwardbackwardlayers">
-            <value name="NUM">
-                <shadow type="math_integer">
-                    <field name="NUM">1</field>
-                </shadow>
-            </value>
-        </block>
-    `;
-    case 'looks_backdropnumbername' : return `<block id="backdropnumbername" type="looks_backdropnumbername"/>`;
-    case 'looks_costumenumbername' : return `
-        <block id="${targetId}_costumenumbername" type="looks_costumenumbername"/>`;
-
-    case 'looks_size' : return `<block id="${targetId}_size" type="looks_size"/>`;
-
-    case 'sound_playuntildone' : return `
-    <block id="${targetId}_sound_playuntildone" type="sound_playuntildone">
-    <value name="SOUND_MENU">
-        <shadow type="sound_sounds_menu">
-            <field name="SOUND_MENU">${soundName}</field>
-        </shadow>
-    </value>
-    </block>`;
-
-    case 'sound_play' : return `
-    <block id="${targetId}_sound_play" type="sound_play">
-    <value name="SOUND_MENU">
-        <shadow type="sound_sounds_menu">
-            <field name="SOUND_MENU">${soundName}</field>
-        </shadow>
-    </value>
-    </block>`;
-
-    case 'sound_stopallsounds' : return `<block type="sound_stopallsounds"/>`;
-    case 'sound_changeeffectby' : return `
-        <block type="sound_changeeffectby">
-        <value name="VALUE">
-            <shadow type="math_number">
-                <field name="NUM">10</field>
-            </shadow>
-        </value>
-        </block>`;
-    case 'sound_seteffectto' : return `
-        <block type="sound_seteffectto">
-            <value name="VALUE">
-                <shadow type="math_number">
-                    <field name="NUM">100</field>
-                </shadow>
-            </value>
-        </block>
-    `;
-    case 'sound_cleareffects' : return `<block type="sound_cleareffects"/>`;
-    case 'sound_changevolumeby' : return `
-        <block type="sound_changevolumeby">
-            <value name="VOLUME">
-                <shadow type="math_number">
-                    <field name="NUM">-10</field>
-                </shadow>
-            </value>
-        </block>`;
-    case 'sound_setvolumeto' : return `
-        <block type="sound_setvolumeto">
-            <value name="VOLUME">
-                <shadow type="math_number">
-                    <field name="NUM">100</field>
-                </shadow>
-            </value>
-        </block>`;
-    
-    case 'sound_volume' : return `<block id="${targetId}_volume" type="sound_volume"/>`;
-
-    case 'event_whenflagclicked' : return `<block type="event_whenflagclicked"/>`;
-    case 'event_whenkeypressed' : return `<block type="event_whenkeypressed"></block>`;
-    case 'event_whenstageclicked' : return `<block type="event_whenstageclicked"/>`;
-    case 'event_whenthisspriteclicked' : return `<block type="event_whenthisspriteclicked"/>`;
-    case 'event_whenbackdropswitchesto' : return `<block type="event_whenbackdropswitchesto"></block>`;
-    case 'event_whengreaterthan' : return `
-        <block type="event_whengreaterthan">
-            <value name="VALUE">
-                <shadow type="math_number">
-                    <field name="NUM">10</field>
-                </shadow>
-            </value>
-        </block>`;
-    case 'event_whenbroadcastreceived' : return `<block type="event_whenbroadcastreceived"></block>`;
-    case 'event_broadcast' : return `<block type="event_broadcast">
-        <value name="BROADCAST_INPUT">
-            <shadow type="event_broadcast_menu"></shadow>
-        </value>
-    </block>`;
-
-    case 'event_broadcastandwait' : return `<block type="event_broadcastandwait">
-        <value name="BROADCAST_INPUT">
-          <shadow type="event_broadcast_menu"></shadow>
-        </value>
-    </block>`;
-    
-    case 'control_wait' : return `
-        <block type="control_wait">
-            <value name="DURATION">
-                <shadow type="math_positive_number">
-                    <field name="NUM">1</field>
-                </shadow>
-            </value>
-        </block>`;
-    case 'control_repeat' : return `
-        <block type="control_repeat">
-            <value name="TIMES">
-                <shadow type="math_whole_number">
-                    <field name="NUM">10</field>
-                </shadow>
-            </value>
-        </block>`;
-    case 'control_forever' : return `<block id="forever" type="control_forever"/>`;
-    case 'control_if' : return `<block type="control_if"/>`;
-    case 'control_if_else' : return `<block type="control_if_else"/>`;
-    case 'control_wait_until' : return `<block id="wait_until" type="control_wait_until"/>`;
-    case 'control_repeat_until' : return `<block id="repeat_until" type="control_repeat_until"/>`;
-    case 'control_stop' : return `<block type="control_stop"/>`;
-    case 'control_create_clone_of' : return `
-        <block type="control_create_clone_of">
-            <value name="CLONE_OPTION">
-            <shadow type="control_create_clone_of_menu"/>
-            </value>
-        </block>`;
-
-    case 'control_start_as_clone' : return `<block type="control_start_as_clone"/>`;
-    case 'control_delete_this_clone' : return `<block type="control_delete_this_clone"/>`;
-    case '' : return `
-        <block type="sensing_touchingobject">
-            <value name="TOUCHINGOBJECTMENU">
-            <shadow type="sensing_touchingobjectmenu"/>
-            </value>
-        </block>`;
-    case 'sensing_touchingcolor' : return `
-        <block type="sensing_touchingcolor">
-            <value name="COLOR">
-                <shadow type="colour_picker"/>
-            </value>
-        </block>`;
-    case 'sensing_coloristouchingcolor' : return `
-        <block type="sensing_coloristouchingcolor">
-            <value name="COLOR">
-                <shadow type="colour_picker"/>
-            </value>
-            <value name="COLOR2">
-                <shadow type="colour_picker"/>
-            </value>
-        </block>`;
-    case 'sensing_distanceto' : return `
-        <block type="sensing_distanceto">
-            <value name="DISTANCETOMENU">
-                <shadow type="sensing_distancetomenu"/>
-            </value>
-        </block>`;
-    case 'sensing_askandwait' : return `
-        <block id="askandwait" type="sensing_askandwait">
-            <value name="QUESTION">
-                <shadow type="text">
-                    <field name="TEXT">${name}</field>
-                </shadow>
-            </value>
-        </block>`;
-    case 'sensing_answer' : return `<block id="answer" type="sensing_answer"/>`;
-    case 'sensing_keypressed' : return `
-        <block type="sensing_keypressed">
-            <value name="KEY_OPTION">
-                <shadow type="sensing_keyoptions"/>
-            </value>
-        </block>`;
-    case 'sensing_mousedown' : return `<block type="sensing_mousedown"/>`;
-    case 'sensing_mousex' : return `<block type="sensing_mousex"/>`;
-    case 'sensing_mousey' : return `<block type="sensing_mousey"/>`;
-    case 'sensing_setdragmode' : return `<block type="sensing_setdragmode" id="sensing_setdragmode"></block>`;
-    case 'sensing_loudness' : return `<block id="loudness" type="sensing_loudness"/>`;
-    case 'sensing_timer' : return `<block id="timer" type="sensing_timer"/>`;
-    case 'sensing_resettimer' : return `<block type="sensing_resettimer"/>`;
-    case 'sensing_of' : return `
-        <block id="of" type="sensing_of">
-            <value name="OBJECT">
-                <shadow id="sensing_of_object_menu" type="sensing_of_object_menu"/>
-            </value>
-        </block>`;
-    case 'sensing_current' : return `<block id="current" type="sensing_current"/>`;
-    case 'sensing_dayssince2000' : return `<block type="sensing_dayssince2000"/>`;
-    case 'sensing_username' : return `<block type="sensing_username"/>`;
-    }
-};
-
-
 /* eslint-disable no-unused-vars */
 const motion = function (isInitialSetup, isStage, targetId) {
     const stageSelected = ScratchBlocks.ScratchMsgs.translate(
         'MOTION_STAGE_SELECTED',
         'Stage selected: no motion blocks'
     );
-
     return `
     <category name="%{BKY_CATEGORY_MOTION}" id="motion" colour="#4C97FF" secondaryColour="#3373CC">
         ${isStage ? `
         <label text="${stageSelected}"></label>
         ` : `
-        ${getBlockXML('motion_movesteps', targetId)}
-        ${getBlockXML('motion_turnright', targetId)}
-        ${getBlockXML('motion_turnleft', targetId)}
+        <block type="motion_movesteps">
+            <value name="STEPS">
+                <shadow type="math_number">
+                    <field name="NUM">10</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="motion_turnright">
+            <value name="DEGREES">
+                <shadow type="math_number">
+                    <field name="NUM">15</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="motion_turnleft">
+            <value name="DEGREES">
+                <shadow type="math_number">
+                    <field name="NUM">15</field>
+                </shadow>
+            </value>
+        </block>
         ${blockSeparator}
-        ${getBlockXML('motion_goto', targetId)}
-        ${getBlockXML('motion_gotoxy', targetId)}
-        ${getBlockXML('motion_glideto', targetId)}
-        ${getBlockXML('motion_glidesecstoxy', targetId)}
-        
+        <block type="motion_goto">
+            <value name="TO">
+                <shadow type="motion_goto_menu">
+                </shadow>
+            </value>
+        </block>
+        <block type="motion_gotoxy">
+            <value name="X">
+                <shadow id="movex" type="math_number">
+                    <field name="NUM">0</field>
+                </shadow>
+            </value>
+            <value name="Y">
+                <shadow id="movey" type="math_number">
+                    <field name="NUM">0</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="motion_glideto" id="motion_glideto">
+            <value name="SECS">
+                <shadow type="math_number">
+                    <field name="NUM">1</field>
+                </shadow>
+            </value>
+            <value name="TO">
+                <shadow type="motion_glideto_menu">
+                </shadow>
+            </value>
+        </block>
+        <block type="motion_glidesecstoxy">
+            <value name="SECS">
+                <shadow type="math_number">
+                    <field name="NUM">1</field>
+                </shadow>
+            </value>
+            <value name="X">
+                <shadow id="glidex" type="math_number">
+                    <field name="NUM">0</field>
+                </shadow>
+            </value>
+            <value name="Y">
+                <shadow id="glidey" type="math_number">
+                    <field name="NUM">0</field>
+                </shadow>
+            </value>
+        </block>
         ${blockSeparator}
-        ${getBlockXML('motion_pointindirection', targetId)}
-        ${getBlockXML('motion_pointtowards', targetId)}
+        <block type="motion_pointindirection">
+            <value name="DIRECTION">
+                <shadow type="math_angle">
+                    <field name="NUM">90</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="motion_pointtowards">
+            <value name="TOWARDS">
+                <shadow type="motion_pointtowards_menu">
+                </shadow>
+            </value>
+        </block>
         ${blockSeparator}
-        ${getBlockXML('motion_changexby', targetId)}
-        ${getBlockXML('motion_setx', targetId)}
-        ${getBlockXML('motion_changeyby', targetId)}
-        ${getBlockXML('motion_sety', targetId)}
+        <block type="motion_changexby">
+            <value name="DX">
+                <shadow type="math_number">
+                    <field name="NUM">10</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="motion_setx">
+            <value name="X">
+                <shadow id="setx" type="math_number">
+                    <field name="NUM">0</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="motion_changeyby">
+            <value name="DY">
+                <shadow type="math_number">
+                    <field name="NUM">10</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="motion_sety">
+            <value name="Y">
+                <shadow id="sety" type="math_number">
+                    <field name="NUM">0</field>
+                </shadow>
+            </value>
+        </block>
         ${blockSeparator}
-        ${getBlockXML('motion_ifonedgebounce', targetId)}
+        <block type="motion_ifonedgebounce"/>
         ${blockSeparator}
-        ${getBlockXML('motion_setrotationstyle', targetId)}
+        <block type="motion_setrotationstyle"/>
         ${blockSeparator}
-        ${getBlockXML('xposition', targetId)}
-        ${getBlockXML('yposition', targetId)}
-        ${getBlockXML('direction', targetId)}`}
+        <block id="${targetId}_xposition" type="motion_xposition"/>
+        <block id="${targetId}_yposition" type="motion_yposition"/>
+        <block id="${targetId}_direction" type="motion_direction"/>`}
         ${categorySeparator}
     </category>
     `;
@@ -513,66 +152,192 @@ const xmlEscape = function (unsafe) {
 };
 
 const looks = function (isInitialSetup, isStage, targetId, costumeName, backdropName) {
+    const hello = ScratchBlocks.ScratchMsgs.translate('LOOKS_HELLO', 'Hello!');
+    const hmm = ScratchBlocks.ScratchMsgs.translate('LOOKS_HMM', 'Hmm...');
     return `
     <category name="%{BKY_CATEGORY_LOOKS}" id="looks" colour="#9966FF" secondaryColour="#774DCB">
         ${isStage ? '' : `
-        ${getBlockXML('looks_sayforsecs')}
-        ${getBlockXML('looks_say')}
-        ${getBlockXML('looks_thinkforsecs')}
-        ${getBlockXML('looks_think')}
+        <block type="looks_sayforsecs">
+            <value name="MESSAGE">
+                <shadow type="text">
+                    <field name="TEXT">${hello}</field>
+                </shadow>
+            </value>
+            <value name="SECS">
+                <shadow type="math_number">
+                    <field name="NUM">2</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="looks_say">
+            <value name="MESSAGE">
+                <shadow type="text">
+                    <field name="TEXT">${hello}</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="looks_thinkforsecs">
+            <value name="MESSAGE">
+                <shadow type="text">
+                    <field name="TEXT">${hmm}</field>
+                </shadow>
+            </value>
+            <value name="SECS">
+                <shadow type="math_number">
+                    <field name="NUM">2</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="looks_think">
+            <value name="MESSAGE">
+                <shadow type="text">
+                    <field name="TEXT">${hmm}</field>
+                </shadow>
+            </value>
+        </block>
         ${blockSeparator}
         `}
         ${isStage ? `
-            ${getBlockXML('looks_switchbackdropto', targetId, costumeName, backdropName)}
-            ${getBlockXML('looks_switchbackdroptoandwait', targetId, costumeName, backdropName)}
-            ${getBlockXML('looks_nextbackdrop')}
+            <block type="looks_switchbackdropto">
+                <value name="BACKDROP">
+                    <shadow type="looks_backdrops">
+                        <field name="BACKDROP">${backdropName}</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="looks_switchbackdroptoandwait">
+                <value name="BACKDROP">
+                    <shadow type="looks_backdrops">
+                        <field name="BACKDROP">${backdropName}</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="looks_nextbackdrop"/>
         ` : `
-            ${getBlockXML('looks_switchcostumeto', targetId, costumeName, backdropName)}
-            ${getBlockXML('looks_nextcostume')}
-            ${getBlockXML('looks_switchbackdropto', targetId, costumeName, backdropName)}
-            ${getBlockXML('looks_nextbackdrop')}
+            <block id="${targetId}_switchcostumeto" type="looks_switchcostumeto">
+                <value name="COSTUME">
+                    <shadow type="looks_costume">
+                        <field name="COSTUME">${costumeName}</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="looks_nextcostume"/>
+            <block type="looks_switchbackdropto">
+                <value name="BACKDROP">
+                    <shadow type="looks_backdrops">
+                        <field name="BACKDROP">${backdropName}</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="looks_nextbackdrop"/>
             ${blockSeparator}
-            ${getBlockXML('looks_changesizeby')}
-            ${getBlockXML('looks_setsizeto')}
+            <block type="looks_changesizeby">
+                <value name="CHANGE">
+                    <shadow type="math_number">
+                        <field name="NUM">10</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="looks_setsizeto">
+                <value name="SIZE">
+                    <shadow type="math_number">
+                        <field name="NUM">100</field>
+                    </shadow>
+                </value>
+            </block>
         `}
         ${blockSeparator}
-        ${getBlockXML('looks_changeeffectby')}
-        ${getBlockXML('looks_seteffectto')}
-        ${getBlockXML('looks_cleargraphiceffects')}
+        <block type="looks_changeeffectby">
+            <value name="CHANGE">
+                <shadow type="math_number">
+                    <field name="NUM">25</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="looks_seteffectto">
+            <value name="VALUE">
+                <shadow type="math_number">
+                    <field name="NUM">0</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="looks_cleargraphiceffects"/>
         ${blockSeparator}
         ${isStage ? '' : `
-        ${getBlockXML('looks_show')}
-        ${getBlockXML('looks_hide')}
+            <block type="looks_show"/>
+            <block type="looks_hide"/>
         ${blockSeparator}
-        ${getBlockXML('looks_gotofrontback')}
-        ${getBlockXML('looks_goforwardbackwardlayers')}
+            <block type="looks_gotofrontback"/>
+            <block type="looks_goforwardbackwardlayers">
+                <value name="NUM">
+                    <shadow type="math_integer">
+                        <field name="NUM">1</field>
+                    </shadow>
+                </value>
+            </block>
         `}
         ${isStage ? `
-        ${getBlockXML('looks_backdropnumbername')}
+            <block id="backdropnumbername" type="looks_backdropnumbername"/>
         ` : `
-        ${getBlockXML('looks_costumenumbername')}
-        ${getBlockXML('looks_backdropnumbername')}
-        ${getBlockXML('looks_size')}
+            <block id="${targetId}_costumenumbername" type="looks_costumenumbername"/>
+            <block id="backdropnumbername" type="looks_backdropnumbername"/>
+            <block id="${targetId}_size" type="looks_size"/>
         `}
         ${categorySeparator}
     </category>
     `;
 };
-
+b
 const sound = function (isInitialSetup, isStage, targetId, soundName) {
     return `
     <category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="#D65CD6" secondaryColour="#BD42BD">
-    ${getBlockXML('_sound_playuntildone', targetId, void 0, void 0, soundName)}
-    ${getBlockXML('sound_play', targetId, void 0, void 0, soundName)}
-    ${getBlockXML('sound_stopallsounds', targetId, void 0, void 0, soundName)}
-    ${blockSeparator}
-    ${getBlockXML('sound_changeeffectby', targetId, void 0, void 0, soundName)}
-    ${getBlockXML('sound_seteffectto', targetId, void 0, void 0, soundName)}
-    ${getBlockXML('sound_cleareffects', targetId, void 0, void 0, soundName)}
-    ${blockSeparator}
-    ${getBlockXML('sound_changevolumeby', targetId, void 0, void 0, soundName)}
-    ${getBlockXML('sound_setvolumeto', targetId, void 0, void 0, soundName)}
-    ${getBlockXML('sound_volume', targetId, void 0, void 0, soundName)}
+        <block id="${targetId}_sound_playuntildone" type="sound_playuntildone">
+            <value name="SOUND_MENU">
+                <shadow type="sound_sounds_menu">
+                    <field name="SOUND_MENU">${soundName}</field>
+                </shadow>
+            </value>
+        </block>
+        <block id="${targetId}_sound_play" type="sound_play">
+            <value name="SOUND_MENU">
+                <shadow type="sound_sounds_menu">
+                    <field name="SOUND_MENU">${soundName}</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="sound_stopallsounds"/>
+        ${blockSeparator}
+        <block type="sound_changeeffectby">
+            <value name="VALUE">
+                <shadow type="math_number">
+                    <field name="NUM">10</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="sound_seteffectto">
+            <value name="VALUE">
+                <shadow type="math_number">
+                    <field name="NUM">100</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="sound_cleareffects"/>
+        ${blockSeparator}
+        <block type="sound_changevolumeby">
+            <value name="VOLUME">
+                <shadow type="math_number">
+                    <field name="NUM">-10</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="sound_setvolumeto">
+            <value name="VOLUME">
+                <shadow type="math_number">
+                    <field name="NUM">100</field>
+                </shadow>
+            </value>
+        </block>
+        <block id="${targetId}_volume" type="sound_volume"/>
         ${categorySeparator}
     </category>
     `;
@@ -581,20 +346,37 @@ const sound = function (isInitialSetup, isStage, targetId, soundName) {
 const events = function (isInitialSetup, isStage) {
     return `
     <category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="#FFD500" secondaryColour="#CC9900">
-        ${getBlockXML('event_whenflagclicked')}
-        ${getBlockXML('event_whenkeypressed')}
+        <block type="event_whenflagclicked"/>
+        <block type="event_whenkeypressed">
+        </block>
         ${isStage ? `
-        ${getBlockXML('event_whenstageclicked')}
+            <block type="event_whenstageclicked"/>
         ` : `
-        ${getBlockXML('event_whenthisspriteclicked')}
+            <block type="event_whenthisspriteclicked"/>
         `}
-        ${getBlockXML('event_whenbackdropswitchesto')}
+        <block type="event_whenbackdropswitchesto">
+        </block>
         ${blockSeparator}
-        ${getBlockXML('event_whengreaterthan')}
+        <block type="event_whengreaterthan">
+            <value name="VALUE">
+                <shadow type="math_number">
+                    <field name="NUM">10</field>
+                </shadow>
+            </value>
+        </block>
         ${blockSeparator}
-        ${getBlockXML('event_whenbroadcastreceived')}
-        ${getBlockXML('event_broadcast')}
-        ${getBlockXML('event_broadcastandwait')}
+        <block type="event_whenbroadcastreceived">
+        </block>
+        <block type="event_broadcast">
+            <value name="BROADCAST_INPUT">
+                <shadow type="event_broadcast_menu"></shadow>
+            </value>
+        </block>
+        <block type="event_broadcastandwait">
+            <value name="BROADCAST_INPUT">
+              <shadow type="event_broadcast_menu"></shadow>
+            </value>
+        </block>
         ${categorySeparator}
     </category>
     `;
@@ -603,24 +385,44 @@ const events = function (isInitialSetup, isStage) {
 const control = function (isInitialSetup, isStage) {
     return `
     <category name="%{BKY_CATEGORY_CONTROL}" id="control" colour="#FFAB19" secondaryColour="#CF8B17">
-        ${getBlockXML('control_wait')}
+        <block type="control_wait">
+            <value name="DURATION">
+                <shadow type="math_positive_number">
+                    <field name="NUM">1</field>
+                </shadow>
+            </value>
+        </block>
         ${blockSeparator}
-        ${getBlockXML('control_repeat')}
-        ${getBlockXML('control_forever')}
+        <block type="control_repeat">
+            <value name="TIMES">
+                <shadow type="math_whole_number">
+                    <field name="NUM">10</field>
+                </shadow>
+            </value>
+        </block>
+        <block id="forever" type="control_forever"/>
         ${blockSeparator}
-        ${getBlockXML('control_if')}
-        ${getBlockXML('control_if_else')}
-        ${getBlockXML('control_wait_until')}
-        ${getBlockXML('control_repeat_until')}
+        <block type="control_if"/>
+        <block type="control_if_else"/>
+        <block id="wait_until" type="control_wait_until"/>
+        <block id="repeat_until" type="control_repeat_until"/>
         ${blockSeparator}
-        ${getBlockXML('control_stop')}
+        <block type="control_stop"/>
         ${blockSeparator}
         ${isStage ? `
-        ${getBlockXML('control_create_clone_of')}
+            <block type="control_create_clone_of">
+                <value name="CLONE_OPTION">
+                    <shadow type="control_create_clone_of_menu"/>
+                </value>
+            </block>
         ` : `
-        ${getBlockXML('control_start_as_clone')}
-        ${getBlockXML('control_create_clone_of')}
-        ${getBlockXML('control_delete_this_clone')}
+            <block type="control_start_as_clone"/>
+            <block type="control_create_clone_of">
+                <value name="CLONE_OPTION">
+                    <shadow type="control_create_clone_of_menu"/>
+                </value>
+            </block>
+            <block type="control_delete_this_clone"/>
         `}
         ${categorySeparator}
     </category>
@@ -632,41 +434,71 @@ const sensing = function (isInitialSetup, isStage) {
     return `
     <category name="%{BKY_CATEGORY_SENSING}" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">
         ${isStage ? '' : `
-            ${getBlockXML('sensing_touchingobject')}<block type="sensing_touchingobject">
-            ${getBlockXML('sensing_touchingcolor')}<block type="sensing_touchingcolor">
-            ${getBlockXML('sensing_coloristouchingcolor')}<block type="sensing_coloristouchingcolor">
-            ${getBlockXML('sensing_distanceto')}<block type="sensing_distanceto">
+            <block type="sensing_touchingobject">
+                <value name="TOUCHINGOBJECTMENU">
+                    <shadow type="sensing_touchingobjectmenu"/>
+                </value>
+            </block>
+            <block type="sensing_touchingcolor">
+                <value name="COLOR">
+                    <shadow type="colour_picker"/>
+                </value>
+            </block>
+            <block type="sensing_coloristouchingcolor">
+                <value name="COLOR">
+                    <shadow type="colour_picker"/>
+                </value>
+                <value name="COLOR2">
+                    <shadow type="colour_picker"/>
+                </value>
+            </block>
+            <block type="sensing_distanceto">
+                <value name="DISTANCETOMENU">
+                    <shadow type="sensing_distancetomenu"/>
+                </value>
+            </block>
             ${blockSeparator}
         `}
         ${isInitialSetup ? '' : `
-        
-            ${getBlockXML('sensing_askandwait')}
             <block id="askandwait" type="sensing_askandwait">
+                <value name="QUESTION">
+                    <shadow type="text">
+                        <field name="TEXT">${name}</field>
+                    </shadow>
+                </value>
+            </block>
         `}
-        ${getBlockXML('sensing_answer')}
+        <block id="answer" type="sensing_answer"/>
         ${blockSeparator}
-        ${getBlockXML('sensing_keypressed')}
-        ${getBlockXML('sensing_mousedown')}
-        ${getBlockXML('sensing_mousex')}
-        ${getBlockXML('sensing_mousey')}
+        <block type="sensing_keypressed">
+            <value name="KEY_OPTION">
+                <shadow type="sensing_keyoptions"/>
+            </value>
+        </block>
+        <block type="sensing_mousedown"/>
+        <block type="sensing_mousex"/>
+        <block type="sensing_mousey"/>
         ${isStage ? '' : `
             ${blockSeparator}
-            ${getBlockXML('sensing_setdragmode')}
+            '<block type="sensing_setdragmode" id="sensing_setdragmode"></block>'+
             ${blockSeparator}
         `}
         ${blockSeparator}
-        ${getBlockXML('sensing_loudness')}
+        <block id="loudness" type="sensing_loudness"/>
         ${blockSeparator}
-        ${getBlockXML('sensing_timer')}
-        ${getBlockXML('sensing_resettimer')}
+        <block id="timer" type="sensing_timer"/>
+        <block type="sensing_resettimer"/>
         ${blockSeparator}
-        ${getBlockXML('sensing_of')}
-        
+        <block id="of" type="sensing_of">
+            <value name="OBJECT">
+                <shadow id="sensing_of_object_menu" type="sensing_of_object_menu"/>
+            </value>
+        </block>
         ${blockSeparator}
-        ${getBlockXML('sensing_current')}
-        ${getBlockXML('sensing_dayssince2000')}
+        <block id="current" type="sensing_current"/>
+        <block type="sensing_dayssince2000"/>
         ${blockSeparator}
-        ${getBlockXML('sensing_username')}
+        <block type="sensing_username"/>
         ${categorySeparator}
     </category>
     `;
@@ -951,6 +783,5 @@ const makeToolboxXML = function (isInitialSetup, isStage = true, targetId, categ
     everything.push(xmlClose);
     return everything.join('\n');
 };
-
 
 export default makeToolboxXML;
