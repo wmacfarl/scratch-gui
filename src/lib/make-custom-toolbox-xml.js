@@ -692,7 +692,6 @@ const motion = function (isInitialSetup, isStage, targetId, workspace) {
         ${getBlockXML('xposition', targetId)}
         ${getBlockXML('yposition', targetId)}
         ${getBlockXML('direction', targetId)}
-        ${getBlockXML('data_changevariableby', targetId, void 0, void 0, void 0, 'my variable', workspace)}
         `}
         ${categorySeparator}
     </category>
@@ -905,13 +904,13 @@ const operators = function (isInitialSetup) {
 
 const customToolbox = function (isInitialSetup, isStage, customBlockPalette,
     targetId, costumeName, backdropName, soundName){
-
+    const categoryName = customBlockPalette.shift();
     let blocksXML = '';
     customBlockPalette.forEach(opcode => {
         blocksXML += getBlockXML(opcode, targetId, costumeName, backdropName, soundName);
     });
 
-    return `<category name="Custom Palette" id="operators" colour="#40BF4A" secondaryColour="#389438">
+    return `<category name="${categoryName}" id="custom" colour="#40BF4A" secondaryColour="#389438">
     ${blocksXML}
     </category>`;
 };
@@ -973,14 +972,16 @@ const makeCustomToolboxXML = function (isInitialSetup, isStage = true, targetId,
     categoriesXML = categoriesXML.slice();
     const customToolboxXML = customToolbox(isInitialSetup, isStage, customBlockPalette, targetId,
         costumeName, backdropName, soundName);
+    
     const variablesXML = variables(isInitialSetup, isStage, targetId);
     const myBlocksXML = myBlocks(isInitialSetup, isStage, targetId);
 
     const everything = [
         xmlOpen,
-        customToolboxXML, gap,
-        variablesXML, gap,
-        myBlocksXML
+        customToolboxXML
+        //, gap,
+    //    variablesXML, gap,
+    //    myBlocksXML
     ];
 
     for (const extensionCategory of categoriesXML) {
