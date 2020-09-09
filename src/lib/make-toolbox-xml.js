@@ -287,7 +287,7 @@ const looks = function (isInitialSetup, isStage, targetId, costumeName, backdrop
     </category>
     `;
 };
-b
+
 const sound = function (isInitialSetup, isStage, targetId, soundName) {
     return `
     <category name="%{BKY_CATEGORY_SOUND}" id="sound" colour="#D65CD6" secondaryColour="#BD42BD">

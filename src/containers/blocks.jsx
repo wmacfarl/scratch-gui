@@ -2,6 +2,7 @@ import bindAll from 'lodash.bindall';
 import debounce from 'lodash.debounce';
 import defaultsDeep from 'lodash.defaultsdeep';
 import makeToolboxXML from '../lib/make-toolbox-xml';
+import customToolbox from '../lib/make-custom-toolbox-xml';
 import PropTypes from 'prop-types';
 import React from 'react';
 import VMScratchBlocks from '../lib/blocks';
@@ -337,17 +338,29 @@ class Blocks extends React.Component {
             let {editingTarget: target, runtime} = this.props.vm;
             const stage = runtime.getTargetForStage();
             if (!target) target = stage; // If no editingTarget, use the stage
+            
+            const customBlockPalette = customToolbox.getCustomBlockPalette(target);
 
             const stageCostumes = stage.getCostumes();
             const targetCostumes = target.getCostumes();
             const targetSounds = target.getSounds();
             const dynamicBlocksXML = this.props.vm.runtime.getBlocksXML(target);
+
+            if (customBlockPalette){
+                return customToolbox.makeCustomToolboxXML(false, target.isStage, target.id, dynamicBlocksXML,
+                    targetCostumes[targetCostumes.length - 1].name,
+                    stageCostumes[stageCostumes.length - 1].name,
+                    targetSounds.length > 0 ? targetSounds[targetSounds.length - 1].name : '',
+                    customBlockPalette);
+            }
             return makeToolboxXML(false, target.isStage, target.id, dynamicBlocksXML,
                 targetCostumes[targetCostumes.length - 1].name,
                 stageCostumes[stageCostumes.length - 1].name,
                 targetSounds.length > 0 ? targetSounds[targetSounds.length - 1].name : ''
             );
+                
         } catch (error){
+            console.log(error);
             return null;
         }
     }

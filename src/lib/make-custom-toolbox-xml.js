@@ -903,6 +903,18 @@ const operators = function (isInitialSetup) {
     `;
 };
 
+const customToolbox = function (isInitialSetup, isStage, customBlockPalette, targetId, 
+    costumeName, backdropName, soundName){
+    let blocksXML = '';
+    customBlockPalette.forEach(opcode => {
+        blocksXML += getBlockXML(opcode, targetId, costumeName, backdropName, soundName)
+    });
+
+    return `<category name="Custom Palette" id="operators" colour="#40BF4A" secondaryColour="#389438">
+    ${blocksXML}
+    </category>`;
+};
+
 const variables = function () {
     return `
     <category
@@ -944,46 +956,27 @@ const xmlClose = '</xml>';
  * @param {?string} costumeName - The name of the default selected costume dropdown.
  * @param {?string} backdropName - The name of the default selected backdrop dropdown.
  * @param {?string} soundName -  The name of the default selected sound dropdown.
+ *
  * @returns {string} - a ScratchBlocks-style XML document for the contents of the toolbox.
  */
-const makeToolboxXML = function (isInitialSetup, isStage = true, targetId, categoriesXML = [],
-    costumeName = '', backdropName = '', soundName = '', workspace) {
+
+const makeCustomToolboxXML = function (isInitialSetup, isStage = true, targetId, categoriesXML = [],
+    costumeName = '', backdropName = '', soundName = '', customBlockPalette) {
+
     isStage = isInitialSetup || isStage;
     const gap = [categorySeparator];
 
     costumeName = xmlEscape(costumeName);
     backdropName = xmlEscape(backdropName);
     soundName = xmlEscape(soundName);
-
     categoriesXML = categoriesXML.slice();
-    const moveCategory = categoryId => {
-        const index = categoriesXML.findIndex(categoryInfo => categoryInfo.id === categoryId);
-        if (index >= 0) {
-            // remove the category from categoriesXML and return its XML
-            const [categoryInfo] = categoriesXML.splice(index, 1);
-            return categoryInfo.xml;
-        }
-        // return `undefined`
-    };
-    const motionXML = moveCategory('motion') || motion(isInitialSetup, isStage, targetId, workspace);
-    const looksXML = moveCategory('looks') || looks(isInitialSetup, isStage, targetId, costumeName, backdropName);
-    const soundXML = moveCategory('sound') || sound(isInitialSetup, isStage, targetId, soundName);
-    const eventsXML = moveCategory('event') || events(isInitialSetup, isStage, targetId);
-    const controlXML = moveCategory('control') || control(isInitialSetup, isStage, targetId);
-    const sensingXML = moveCategory('sensing') || sensing(isInitialSetup, isStage, targetId);
-    const operatorsXML = moveCategory('operators') || operators(isInitialSetup, isStage, targetId);
-    const variablesXML = moveCategory('data') || variables(isInitialSetup, isStage, targetId);
-    const myBlocksXML = moveCategory('procedures') || myBlocks(isInitialSetup, isStage, targetId);
+    const customToolboxXML = customToolbox(isInitialSetup, isStage, customBlockPalette, targetId, costumeName, backdropName, soundName);
+    const variablesXML = variables(isInitialSetup, isStage, targetId);
+    const myBlocksXML = myBlocks(isInitialSetup, isStage, targetId);
 
     const everything = [
         xmlOpen,
-        motionXML, gap,
-        looksXML, gap,
-        soundXML, gap,
-        eventsXML, gap,
-        controlXML, gap,
-        sensingXML, gap,
-        operatorsXML, gap,
+        customToolboxXML, gap,
         variablesXML, gap,
         myBlocksXML
     ];
@@ -994,7 +987,18 @@ const makeToolboxXML = function (isInitialSetup, isStage = true, targetId, categ
 
     everything.push(xmlClose);
     return everything.join('\n');
+
+
 };
 
+const getCustomBlockPalette = function (target){
+    console.log(target);
+    const magicProperty = `${target.sprite.name}BlockPalette`;
+    if (target.comments.hasOwnProperty(magicProperty)){
+        const paletteString = target.comments[magicProperty].text;
+        return paletteString.split('\n');
+    }
+    return null;
+}
 
-export default makeToolboxXML;
+export default {makeCustomToolboxXML, getCustomBlockPalette};
