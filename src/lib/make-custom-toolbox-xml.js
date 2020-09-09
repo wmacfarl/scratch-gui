@@ -903,11 +903,12 @@ const operators = function (isInitialSetup) {
     `;
 };
 
-const customToolbox = function (isInitialSetup, isStage, customBlockPalette, targetId, 
-    costumeName, backdropName, soundName){
+const customToolbox = function (isInitialSetup, isStage, customBlockPalette,
+    targetId, costumeName, backdropName, soundName){
+
     let blocksXML = '';
     customBlockPalette.forEach(opcode => {
-        blocksXML += getBlockXML(opcode, targetId, costumeName, backdropName, soundName)
+        blocksXML += getBlockXML(opcode, targetId, costumeName, backdropName, soundName);
     });
 
     return `<category name="Custom Palette" id="operators" colour="#40BF4A" secondaryColour="#389438">
@@ -970,7 +971,8 @@ const makeCustomToolboxXML = function (isInitialSetup, isStage = true, targetId,
     backdropName = xmlEscape(backdropName);
     soundName = xmlEscape(soundName);
     categoriesXML = categoriesXML.slice();
-    const customToolboxXML = customToolbox(isInitialSetup, isStage, customBlockPalette, targetId, costumeName, backdropName, soundName);
+    const customToolboxXML = customToolbox(isInitialSetup, isStage, customBlockPalette, targetId,
+        costumeName, backdropName, soundName);
     const variablesXML = variables(isInitialSetup, isStage, targetId);
     const myBlocksXML = myBlocks(isInitialSetup, isStage, targetId);
 
@@ -992,13 +994,12 @@ const makeCustomToolboxXML = function (isInitialSetup, isStage = true, targetId,
 };
 
 const getCustomBlockPalette = function (target){
-    console.log(target);
     const magicProperty = `${target.sprite.name}BlockPalette`;
     if (target.comments.hasOwnProperty(magicProperty)){
         const paletteString = target.comments[magicProperty].text;
         return paletteString.split('\n');
     }
     return null;
-}
+};
 
 export default {makeCustomToolboxXML, getCustomBlockPalette};
